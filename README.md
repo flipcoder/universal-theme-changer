@@ -1,6 +1,8 @@
 universal-theme-changer (work in progress)
 =======================
+
 https://github.com/flipcoder/universal-theme-changer
+
 Copyright (c) 2012 Grady O'Connell
 
 Desktop theme changer for GTK and Qt
