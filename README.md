@@ -6,6 +6,7 @@ https://github.com/flipcoder/universal-theme-changer
 Copyright (c) 2012 Grady O'Connell
 
 Desktop theme changer for GTK and Qt
+
 Compatible with GTK3
 
 This program is for those (like myself) that use Linux tiled window managers or desktop environments that don't support this functionality built in.
