@@ -103,8 +103,10 @@ def main():
         c.read(f)
         if not c.has_section("Settings"):
             c.add_section("Settings")
-        c.set("Settings", "gtk-theme-name", theme_selection)
-        c.set("Settings", "gtk-icon-theme-name", theme_selection)
+        if theme_selection:
+            c.set("Settings", "gtk-theme-name", theme_selection)
+        if icon_selection:
+            c.set("Settings", "gtk-icon-theme-name", icon_selection)
         c.write(open(f,'w'))
 
         # set Qt to use GTK theme
