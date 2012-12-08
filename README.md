@@ -1,4 +1,4 @@
-universal-theme-changer (work in progress)
+universal-theme-changer
 =======================
 
 https://github.com/flipcoder/universal-theme-changer
