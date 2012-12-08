@@ -99,15 +99,27 @@ def main():
 
         # set gtk3
         c = ConfigParser.ConfigParser()
-        gtk3_file_path = os.path.join(os.environ.get('XDG_CONFIG_HOME'), 'gtk-3.0/settings.ini')
-        c.read(gtk3_file_path)
+        f = os.path.join(os.environ.get('XDG_CONFIG_HOME'), 'gtk-3.0/settings.ini')
+        c.read(f)
         if not c.has_section("Settings"):
             c.add_section("Settings")
         c.set("Settings", "gtk-theme-name", theme_selection)
         c.set("Settings", "gtk-icon-theme-name", theme_selection)
-        c.write(open(gtk3_file_path,'w'))
+        c.write(open(f,'w'))
 
-    
+        # set Qt to use GTK theme
+        c = ConfigParser.ConfigParser()
+        f = os.path.join(os.environ.get('XDG_CONFIG_HOME'), 'Trolltech.conf')
+        c.read(f)
+        if not c.has_section("Qt"):
+            c.add_section("Qt")
+        c.set("Qt", "style", "GTK+")
+        c.write(open(f,'w'))
+
+        # probably won't need these, but here they are anyway:
+        #os.system("gconftool-2 --type string --set /desktop/gnome/interface/gtk_theme \"%s\"" % theme_selection)
+        #os.system("gconftool-2 --type string --set /desktop/gnome/interface/icon_theme \"%s\"" % icon_selection)
+
     # TODO: set gtk3 theme and icons
         
     return 0
