@@ -1,5 +1,5 @@
 #!/usr/bin/python2
-import sh,os,sys,fileinput
+import sh,os,sys,fileinput,ConfigParser
 
 def menu_print(msg):
     print msg
@@ -83,8 +83,9 @@ def main():
 
     print
 
-    # set gtk2 theme and icons
     if theme_selection or icon_selection:
+
+        # set gtk2
         once = False
         for line in fileinput.input(os.path.join(os.path.expanduser('~'), '.gtkrc-2.0'), inplace=1):
             if not once:
@@ -95,6 +96,16 @@ def main():
                 once = True
             if not line.startswith("gtk-theme-name=") and not line.startswith("gtk-icon-theme-name"):
                 print line[:-1]
+
+        # set gtk3
+        c = ConfigParser.ConfigParser()
+        gtk3_file_path = os.path.join(os.environ.get('XDG_CONFIG_HOME'), 'gtk-3.0/settings.ini')
+        c.read(gtk3_file_path)
+        if not c.has_section("Settings"):
+            c.add_section("Settings")
+        c.set("Settings", "gtk-theme-name", theme_selection)
+        c.set("Settings", "gtk-icon-theme-name", theme_selection)
+        c.write(open(gtk3_file_path,'w'))
 
     
     # TODO: set gtk3 theme and icons
