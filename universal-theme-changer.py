@@ -119,8 +119,10 @@ def main():
         c.write(open(f,'w'))
 
         # probably won't need these, but here they are anyway:
-        #os.system("gconftool-2 --type string --set /desktop/gnome/interface/gtk_theme \"%s\"" % theme_selection)
-        #os.system("gconftool-2 --type string --set /desktop/gnome/interface/icon_theme \"%s\"" % icon_selection)
+        if theme_selection:
+            os.system("gconftool-2 --type string --set /desktop/gnome/interface/gtk_theme \"%s\"" % theme_selection)
+        if icon_selection:
+            os.system("gconftool-2 --type string --set /desktop/gnome/interface/icon_theme \"%s\"" % icon_selection)
 
     # TODO: set gtk3 theme and icons
         
