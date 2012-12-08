@@ -124,8 +124,6 @@ def main():
         if icon_selection:
             os.system("gconftool-2 --type string --set /desktop/gnome/interface/icon_theme \"%s\"" % icon_selection)
 
-    # TODO: set gtk3 theme and icons
-        
     return 0
 
 if __name__=="__main__":
