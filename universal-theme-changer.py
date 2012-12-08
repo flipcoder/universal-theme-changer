@@ -1,5 +1,5 @@
 #!/usr/bin/python2
-import sh,os,sys
+import sh,os,sys,fileinput
 
 def menu_print(msg):
     print msg
@@ -50,8 +50,9 @@ def main():
     themes = {}
     icons = {}
 
-    # TODO: look up current theme
+    # TODO: look up current theme and icons
     current_theme = ""
+    current_icons = ""
 
     for theme_path in ('/usr/share/themes', os.path.join(os.path.expanduser('~'),'.themes')):
         try:
@@ -64,9 +65,40 @@ def main():
                     themes[path] = full
         except sh.ErrorReturnCode_2: # path not found
             pass
+    theme_selection = menu("Compatible Themes", "Select a theme: ", themes.keys(), index=False, current=current_theme)
 
-    print menu("Compatible Themes", "Select a theme: ", themes.keys(), index=False, current=current_theme)
+    print
 
+    for icon_path in ('/usr/share/icons', os.path.join(os.path.expanduser('~'),'.icons')):
+        try:
+            for path in sh.ls('-1', icon_path):
+                path = path[:-1] # take off trailing space
+                full = os.path.join(icon_path, path)
+                if(os.path.isdir(full)):
+                    icons[path] = full
+        except sh.ErrorReturnCode_2: # path not found
+            pass
+
+    icon_selection = menu("Compatible Icons", "Select icon set: ", icons.keys(), index=False, current=current_icons)
+
+    print
+
+    # set gtk2 theme and icons
+    if theme_selection or icon_selection:
+        once = False
+        for line in fileinput.input(os.path.join(os.path.expanduser('~'), '.gtkrc-2.0'), inplace=1):
+            if not once:
+                if theme_selection:
+                    print "gtk-theme-name=\"%s\"" % theme_selection
+                if icon_selection:
+                    print "gtk-icon-theme-name=\"%s\"" % icon_selection
+                once = True
+            if not line.startswith("gtk-theme-name=") and not line.startswith("gtk-icon-theme-name"):
+                print line[:-1]
+
+    
+    # TODO: set gtk3 theme and icons
+        
     return 0
 
 if __name__=="__main__":
