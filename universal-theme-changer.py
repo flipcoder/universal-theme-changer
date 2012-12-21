@@ -49,6 +49,8 @@ def menu(title, msg, options, back=False, back_text="Back", index=True, current=
 def main():
     themes = {}
     icons = {}
+    #toolbar_styles = {}
+    #toolbar_icon_sizes = {}
 
     # TODO: look up current theme and icons
     current_theme = ""
@@ -87,15 +89,20 @@ def main():
 
         # set gtk2
         once = False
+        remove_list = []
         for line in fileinput.input(os.path.join(os.path.expanduser('~'), '.gtkrc-2.0'), inplace=1):
             if not once:
                 if theme_selection:
                     print "gtk-theme-name=\"%s\"" % theme_selection
+                    remove_list += ["gtk-theme-name"]
                 if icon_selection:
                     print "gtk-icon-theme-name=\"%s\"" % icon_selection
+                    remove_list += ["gtk-icon-theme-name"]
                 once = True
-            if not line.startswith("gtk-theme-name=") and not line.startswith("gtk-icon-theme-name"):
-                print line[:-1]
+            for line_cmp in remove_list:
+                if line.startswith(line_cmp):
+                    continue # skip line, its already been added above
+            print line[:-1] # put unmodified line back in file
 
         # set gtk3
         c = ConfigParser.ConfigParser()
