@@ -67,7 +67,7 @@ def main():
                     themes[path] = full
         except sh.ErrorReturnCode_2: # path not found
             pass
-    theme_selection = menu("Compatible Themes", "Select a theme: ", themes.keys(), index=False, current=current_theme)
+    theme_selection = menu("Compatible Themes", "Select a theme: ", sorted(themes.keys()), index=False, current=current_theme)
 
     print
 
@@ -81,7 +81,7 @@ def main():
         except sh.ErrorReturnCode_2: # path not found
             pass
 
-    icon_selection = menu("Compatible Icons", "Select icon set: ", icons.keys(), index=False, current=current_icons)
+    icon_selection = menu("Compatible Icons", "Select icon set: ", sorted(icons.keys()), index=False, current=current_icons)
 
     print
 
