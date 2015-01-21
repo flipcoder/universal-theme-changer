@@ -1,5 +1,5 @@
 #!/usr/bin/python2
-import sh,os,sys,fileinput,ConfigParser
+import sh,os,sys,fileinput,ConfigParser,distutils.dir_util
 
 def menu_print(msg):
     print msg
@@ -90,7 +90,9 @@ def main():
         # set gtk2
         once = False
         remove_list = []
-        for line in fileinput.input(os.path.join(os.path.expanduser('~'), '.gtkrc-2.0'), inplace=1):
+        gtkrc2file = os.path.join(os.path.expanduser('~'), '.gtkrc-2.0')
+        open(gtkrc2file, 'w+')
+        for line in fileinput.input(gtkrc2file, inplace=1):
             if not once:
                 if theme_selection:
                     print "gtk-theme-name=\"%s\"" % theme_selection
@@ -107,6 +109,10 @@ def main():
         # set gtk3
         c = ConfigParser.ConfigParser()
         f = os.path.join(os.environ.get('XDG_CONFIG_HOME'), 'gtk-3.0/settings.ini')
+        
+        distutils.dir_util.mkpath(os.path.split(f)[0])
+        open(f,'w+')
+        
         c.read(f)
         if not c.has_section("Settings"):
             c.add_section("Settings")
